@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'gerenciador-clientes';
+
+  onClienteAdicionado(cliente) {
+    console.log(cliente);
+  }
 }
