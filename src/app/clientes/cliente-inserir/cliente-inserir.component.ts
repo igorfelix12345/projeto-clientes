@@ -21,11 +21,18 @@ export class ClienteInserirComponent {
   //email: string;
   onAdicionarCliente(form: NgForm) {
     if (form.invalid) return;
+
+    // Enviando os dados para o cliente service
     this.clienteService.adicionarCliente(
+      // Capturando os dados do formulário:
       form.value.nome,
       form.value.fone,
       form.value.email
     );
+
+    // Limpando os campos do formulário:
+    form.resetForm();
+
     // const cliente: Cliente = {
     //   nome: form.value.nome,
     //   fone: form.value.fone,

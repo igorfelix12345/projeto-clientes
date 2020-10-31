@@ -1,25 +1,39 @@
 import { Injectable } from '@angular/core';
 
+import { Subject } from 'rxjs';
+
 import { Cliente } from './cliente.model';
+
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteService {
 
-  constructor() { }
+  constructor(private httpClient: HttpClient){ }
 
-  private clientes: Cliente [] = [
-    {
-      nome: 'Maria',
-      fone: '11223344',
-      email: 'maria@email.com'
+  private clientes: Cliente [] = [];
+
+  private listaClientesAtualizada
+      = new Subject<Cliente[]>();
+
+  getClientes(): void {
+    this.httpClient.get
+      <
+        {
+          mensagem: string,
+          clientes: Cliente[]
+        }
+      >
+      ('http://localhost:3000/api/clientes')
+      .subscribe(
+        (dados) => {
+            this.clientes = dados.clientes;
+            this.listaClientesAtualizada.next([...this.clientes]);
+        }
+      )
     }
-  ];
-
-  getClientes(): Cliente[] {
-    return [...this.clientes];
-  }
 
   adicionarCliente (nome: string, fone: string, email: string): void{
     const cliente: Cliente = {
@@ -27,9 +41,28 @@ export class ClienteService {
       fone: fone,
       email: email
     };
-    this.clientes.push(cliente);
+
+
+    this.httpClient.post
+      <{mensagem: string}>
+      ('http://localhost:3000/api/clientes', cliente)
+      .subscribe(
+        (dados) => {
+          console.log(dados.mensagem);
+          this.clientes.push(cliente);
+          this.listaClientesAtualizada.next([...this.clientes]);
+        }
+      );
   }
 
+  /**
+   * Devolve um objeto "Observable"
+   * para que os componentes se registrem
+   * como observadores.
+   */
+  getListaClientesAtualizadaObservable() {
+    return this.listaClientesAtualizada.asObservable();
+  }
 
 
 }
