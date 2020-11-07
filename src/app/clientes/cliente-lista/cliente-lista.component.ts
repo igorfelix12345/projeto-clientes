@@ -43,4 +43,8 @@ export class ClienteListaComponent
     this.clientesSubscription.unsubscribe();
   }
 
+  onDelete (id: string): void{
+    this.clienteService.removerCliente(id);
+  }
+
 }

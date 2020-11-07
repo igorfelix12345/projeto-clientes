@@ -15,7 +15,7 @@ import { ClienteInserirComponent } from './clientes/cliente-inserir/cliente-inse
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CabecalhoComponent } from './cabecalho/cabecalho.component';
 import { ClienteListaComponent } from './clientes/cliente-lista/cliente-lista.component'
-
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +26,7 @@ import { ClienteListaComponent } from './clientes/cliente-lista/cliente-lista.co
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
     MatInputModule,
